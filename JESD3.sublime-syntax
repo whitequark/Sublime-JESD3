@@ -1,0 +1,90 @@
+%YAML 1.2
+---
+name: JEDEC JESD3
+file_extensions: [jed]
+scope: source.jesd3
+
+contexts:
+  main:
+    - match: '\x02'
+      scope: punctuation.definition.comment, comment.block
+      push: stx
+  stx:
+    - meta_content_scope: comment.block
+    - match: '\*'
+      set: field
+  etx:
+    - match: '[0-9A-F]{4}'
+      pop: true
+    - match: '.'
+      scope: invalid.illegal
+      pop: true
+  field:
+    - match: '[ \r\n]+'
+    - match: 'N'
+      scope: punctuation.definition.comment, comment.block
+      set: field_N
+    - match: 'QF|QP|QV'
+      scope: keyword.operator.jesd3
+      set: field_Qx
+    - match: 'F'
+      scope: keyword.operator.jesd3
+      set: field_F
+    - match: 'L'
+      scope: keyword.operator.jesd3
+      set: field_L
+    - match: 'C'
+      scope: keyword.operator.jesd3
+      set: field_C
+    - match: '\x03'
+      scope: keyword.operator.jesd3
+      set: etx
+    - match: '.'
+      scope: invalid.illegal
+      set: illegal
+  field_N:
+    - meta_content_scope: comment.block
+    - match: '\*'
+      set: field
+  field_Qx:
+    - match: '[0-9]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_F:
+    - match: '[01]'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_L:
+    - match: '[0-9]+'
+      scope: variable.parameter.option.jesd3
+      set: args_L
+    - include: or_illegal
+  args_L:
+    - match: '[ \r\n]+'
+    - match: '[01]'
+      scope: constant.numeric.integer.binary
+    - match: '\*'
+      scope: punctuation.terminator
+      set: field
+  field_C:
+    - match: '[0-9A-Fa-f]{4}'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  and_done:
+    - match: '[ \r\n]+'
+    - match: '\*'
+      scope: punctuation.terminator
+      set: field
+    - include: or_illegal
+  or_illegal:
+    - match: '.'
+      scope: invalid.illegal
+      set: illegal
+  illegal:
+    - meta_content_scope: invalid.illegal
+    - match: '\*'
+      scope: punctuation.terminator
+      set: field
