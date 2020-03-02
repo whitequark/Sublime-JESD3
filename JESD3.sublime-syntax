@@ -20,7 +20,7 @@ contexts:
       scope: invalid.illegal
       pop: true
   field:
-    - match: '[ \r\n]+'
+    - match: '[ \t\r\n]+'
     - match: 'N'
       scope: punctuation.definition.comment, comment.block
       set: field_N
@@ -62,7 +62,7 @@ contexts:
       set: args_L
     - include: or_illegal
   args_L:
-    - match: '[ \r\n]+'
+    - match: '[ \t\r\n]+'
     - match: '[01]'
       scope: constant.numeric.integer.binary
     - match: '\*'
@@ -74,7 +74,7 @@ contexts:
       set: and_done
     - include: or_illegal
   and_done:
-    - match: '[ \r\n]+'
+    - match: '[ \t\r\n]+'
     - match: '\*'
       scope: punctuation.terminator
       set: field
