@@ -36,6 +36,27 @@ contexts:
     - match: 'C'
       scope: keyword.operator.jesd3
       set: field_C
+    - match: 'EH'
+      scope: keyword.operator.jesd3
+      set: field_EH
+    - match: 'E'
+      scope: keyword.operator.jesd3
+      set: field_E
+    - match: 'G'
+      scope: keyword.operator.jesd3
+      set: field_G
+    - match: 'UA'
+      scope: keyword.operator.jesd3
+      set: field_UA
+    - match: 'UH'
+      scope: keyword.operator.jesd3
+      set: field_UH
+    - match: 'U'
+      scope: keyword.operator.jesd3
+      set: field_U
+    - match: 'X'
+      scope: keyword.operator.jesd3
+      set: field_X
     - match: '\x03'
       scope: keyword.operator.jesd3
       set: etx
@@ -70,6 +91,41 @@ contexts:
       set: field
   field_C:
     - match: '[0-9A-Fa-f]{4}'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_EH:
+    - match: '[0-9A-Fa-f]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_E:
+    - match: '[01]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_G:
+    - match: '[01]'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_UA:
+    - match: '[\t\r\n\x20-\x29\x2B-\x7E]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_UH:
+    - match: '[0-9A-Fa-f]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_U:
+    - match: '[01]+'
+      scope: variable.parameter.option.jesd3
+      set: and_done
+    - include: or_illegal
+  field_X:
+    - match: '[01]'
       scope: variable.parameter.option.jesd3
       set: and_done
     - include: or_illegal
